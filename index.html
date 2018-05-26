@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="PHP based online compiler">
+        <meta name="author" content="Md. Minhazul Haque">
+        <link rel="icon" href="favicon.ico">
+        <title>Online Compiler</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 justify-content-between">
+            <a class="navbar-brand" href="#">Online Compiler</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <form id="compiler_form">
+                    <div class="form-group">
+                        <label for="src">Paste Your Code</label>
+                        <textarea class="form-control" id="src" rows="10"></textarea>
+                    </div>
+                    <select id="lang" class="form-control">
+                        <option>Select Language</option>
+                        <option value="python2">Python 2</option>
+                        <option value="python3">Python 3</option>
+                        <option value="lua">Lua</option>
+                        <option value="perl">Perl</option>
+                        <option value="ruby">Ruby</option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-danger">Run</button>
+                </div>
+                <div class="col-md-4">
+                    <form>
+                    <div class="form-group">
+                        <label for="output">Result</label>
+                        <textarea class="form-control" id="output" rows="10"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+    $(function() {
+        $("#compiler_form").submit(function(e) {
+            e.preventDefault();
+            var actionurl = "/compiler.php";
+            var data = {};
+            data["lang"] = $('#lang').val();
+            data["src"] = $('#src').val();
+            $.ajax({
+                    url: actionurl,
+                    type: 'post',
+                    dataType: 'application/json',
+                    data: JSON.stringify(data),
+                    complete: function(xhr) {
+                        var response = JSON.parse(xhr.responseText);
+                        if(response.err == 0) {
+                            $("#output").html(response.out);
+                        } else {
+                            $("#output").html(response.err);
+                        }
+                    }
+            });
+
+        });
+    });
+    </script>
+</html>
