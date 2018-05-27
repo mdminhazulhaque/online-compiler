@@ -1,0 +1,7 @@
+-- demo program
+
+local i = 42
+local s = "foo"
+
+print(i)
+print(s)

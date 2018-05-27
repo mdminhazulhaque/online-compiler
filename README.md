@@ -10,4 +10,5 @@
 
 - [ ] Add more languages
 - [ ] Add syntax highlighter
+- [x] Add demo code
 

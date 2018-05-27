@@ -1,0 +1,7 @@
+# demo program
+
+$i = 42;
+$s = "foo";
+
+print "$i\n";
+print "$s";

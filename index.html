@@ -47,29 +47,40 @@
     </body>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
-    $(function() {
-        $("#compiler_form").submit(function(e) {
-            e.preventDefault();
-            var actionurl = "/compiler.php";
-            var data = {};
-            data["lang"] = $('#lang').val();
-            data["src"] = $('#src').val();
-            $.ajax({
-                    url: actionurl,
-                    type: 'post',
-                    dataType: 'application/json',
-                    data: JSON.stringify(data),
-                    complete: function(xhr) {
-                        var response = JSON.parse(xhr.responseText);
-                        if(response.err == 0) {
-                            $("#output").html(response.out);
-                        } else {
-                            $("#output").html(response.err);
-                        }
+    $("#compiler_form").submit(function(e) {
+        e.preventDefault();
+        var actionurl = "/compiler.php";
+        var data = {};
+        data["lang"] = $('#lang').val();
+        data["src"] = $('#src').val();
+        $.ajax({
+                url: actionurl,
+                type: 'post',
+                dataType: 'application/json',
+                data: JSON.stringify(data),
+                complete: function(xhr) {
+                    var response = JSON.parse(xhr.responseText);
+                    if(response.err == 0) {
+                        $("#output").html(response.out);
+                    } else {
+                        $("#output").html(response.err);
                     }
-            });
-
+                }
         });
     });
+    $("#lang").change(function(e){
+        if ($(this)[0].selectedIndex != 0) {
+            var lang = $(this).val();
+            var actionurl = "/demo/" + lang;
+            $.ajax({
+                    url: actionurl,
+                    type: 'get',
+                    dataType: 'text/plain',
+                    complete: function(xhr) {
+                        $("#src").html(xhr.responseText);
+                    }
+            });
+        }
+    }).change();
     </script>
 </html>
